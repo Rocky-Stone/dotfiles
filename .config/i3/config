@@ -17,7 +17,7 @@ set $SideMonitor "DisplayPort-0"
 
 #set custom stuff:
 exec --no-startup-id picom
-exec_always --no-startup-id ~/.screenlayout/xrandrInit.sh; feh --bg-scale ~/.config/.backgrounds/cosmic-bg.jpg
+exec_always --no-startup-id ~/.screenlayout/xrandrInit.sh; feh --bg-scale ~/.config/backgrounds/cosmic-bg.jpg
 exec_always --no-startup-id killall polybar
 exec_always --no-startup-id ~/.config/polybar/launchPolybar.sh
 default_border none
