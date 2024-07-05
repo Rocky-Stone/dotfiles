@@ -31,13 +31,13 @@ alias mem='free -h'
 alias eth='sudo ethtool enp14s0' 
 alias nas='cd /mnt/nas/'
 alias gitpush='git push -u origin main'
-alias gitall='git add . && git commit -m "" &&git push -u origin main'
 alias i3conf='vi ~/.config/i3/config'
+alias cddot='cd ~/.dotfiles'
 
 #custom functions
-function gitalls () {
+function gitall () {
 	git add .
-	git commit -m "used gitall to add this..."
+	git commit -m "$1"
 	git push -u origin main
 }
 #function gitall() { git add . && git commit -m "$1" && git push -u origin main } 
