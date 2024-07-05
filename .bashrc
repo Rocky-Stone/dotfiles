@@ -30,6 +30,7 @@ alias mcserver='mcrcon -p halo1123 -P 25575 -t -H 192.168.1.193'
 alias mem='free -h'
 alias eth='sudo ethtool enp14s0' 
 alias nas='cd /mnt/nas/'
+alias gitpush='git push -u origin main'
 
 alias i3conf='vi ~/.config/i3/config'
 #add to PATH:
