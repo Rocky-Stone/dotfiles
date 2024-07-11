@@ -33,6 +33,7 @@ alias nas='cd /mnt/nas/'
 alias gitpush='git push -u origin main'
 alias i3conf='vi ~/.config/i3/config'
 alias cddot='cd ~/.dotfiles'
+alias cdvi='cd ~/.config/nvim'
 
 #custom functions
 function gitall () {
@@ -40,8 +41,15 @@ function gitall () {
 	git commit -m "$1"
 	git push -u origin main
 }
-#function gitall() { git add . && git commit -m "$1" && git push -u origin main } 
-#export -f gitall
+
+function mkcd () {
+	mkdir ./"$1"
+	cd ./"$1"
+}
+
+function pic () {
+	nomacs ./"$1"
+}
 
 #add to PATH:
 export PATH=$PATH:~/scripts
