@@ -2,14 +2,14 @@
 # this file and re-run i3-config-wizard(1).
 
 # i3 config file (v4)
-#
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 #:Global Variables----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 set $mod Mod1
-set $MainMonitor "DisplayPort-2"
-set $SideMonitor "DisplayPort-0"
+set $win Mod4
+set $MainDisplay "DisplayPort-2"
+set $SideDisplay "DisplayPort-0"
 
 #:Initial Startup Commands--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -17,6 +17,8 @@ exec --no-startup-id picom
 exec_always --no-startup-id ~/.screenlayout/xrandrInit.sh; ~/scripts/set_random_wallpaper.sh
 exec_always --no-startup-id ~/.config/polybar/launchPolybar.sh
 exec_always --no-startup-id ~/scripts/launch_kdeconnect.sh
+exec --no-starup-id xinput --set-prop "pointer:Logitech G305" 'libinput Accel Profile Enabled' 0, 1
+exec --no-startup-id ~/scripts/disable_power_saving.sh
 default_border none
 
 # Font for window titles.
@@ -38,7 +40,6 @@ exec --no-startup-id nm-applet
 exec --no-startup-id clipcatd
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym $mod + plus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -55,31 +56,39 @@ bindsym $mod+Control+s exec systemctl suspend
 # restart computer
 bindsym $mod+Control+r exec reboot 
 # lock screen
-bindsym $mod+Control+l exec i3lockmore --image-fill ~/scripts/set_random_wallpaper.sh
+bindsym $mod+Control+l exec --no-startup-id i3lockmore --image-fill ~/scripts/set_random_wallpaper.sh
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec --no-startup-id alacritty
+# start file manager
+bindsym $mod+e exec --no-startup-id thunar
 
 # kill focused window
 bindsym $mod+q kill
+# kill all windows
+bindsym $mod+Control+q [class=".*"] kill
+# kill all windows on focused workspace
+bindsym $mod+shift+q focus parent,kill
 
 #launch rofi
-bindsym Control+space exec "rofi -show"
+bindsym Control+space exec --no-startup-id "rofi -show"
+#launch rofi with sudo
+bindsym $mod+u exec --no-startup-id "sudo rofi -show"
 #launch rofi-bluetooth script
-bindsym $mod+b exec rofi-bluetooth
+bindsym $mod+b exec --no-startup-id rofi-bluetooth
 #launch rofi-wifi-menu script
-bindsym $mod+w exec rofi-wifi-menu
+bindsym $mod+w exec --no-startup-id rofi-wifi-menu
 #launch rofi-clipcat-menu
-bindsym $mod+v exec clipcat-menu
+bindsym $mod+v exec --no-startup-id clipcat-menu
 
 #screenshot region 
-bindsym Print exec ~/scripts/screenshot.sh
+bindsym Print exec --no-startup-id ~/scripts/screenshot.sh
 
 #open black screen firefox
-bindsym $mod+d exec ~/scripts/blank
+bindsym $mod+d exec --no-startup-id ~/scripts/blank
 
 #open nas folder in xfe
-bindsym $mod+n exec xfe /mnt/nas
+bindsym $mod+n exec --no-startup-id xfe /mnt/nas
 #:i3 Keybinds--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # reload the configuration file
@@ -87,7 +96,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-starup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 #:Focus Keybinds------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -104,10 +113,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $win+h move left
+bindsym $win+j move down
+bindsym $win+k move up
+bindsym $win+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -155,32 +164,30 @@ bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $win+1 move container to workspace number $ws1
+bindsym $win+2 move container to workspace number $ws2
+bindsym $win+3 move container to workspace number $ws3
+bindsym $win+4 move container to workspace number $ws4
+bindsym $win+5 move container to workspace number $ws5
+bindsym $win+6 move container to workspace number $ws6
+bindsym $win+7 move container to workspace number $ws7
+bindsym $win+8 move container to workspace number $ws8
+bindsym $win+9 move container to workspace number $ws9
+bindsym $win+0 move container to workspace number $ws10
 
 #assign workspaces to specific monitor:
-workspace $ws1 output DisplayPort-2
-workspace $ws2 output DisplayPort-2
-workspace $ws3 output DisplayPort-2
-workspace $ws4 output DisplayPort-2
-workspace $ws5 output DisplayPort-2
-workspace $ws6 output DisplayPort-0
-workspace $ws7 output DisplayPort-0
-workspace $ws8 output DisplayPort-0
-workspace $ws9 output DisplayPort-0
-workspace $ws10 output DisplayPort-0
+workspace $ws1 output $MainDisplay
+workspace $ws2 output $MainDisplay
+workspace $ws3 output $MainDisplay
+workspace $ws4 output $MainDisplay
+workspace $ws5 output $MainDisplay
+workspace $ws6 output $SideDisplay
+workspace $ws7 output $SideDisplay
+workspace $ws8 output $SideDisplay
+workspace $ws9 output $SideDisplay
+workspace $ws10 output $SideDisplay
 
 #assign programs to spedific workspaces:
-#assign [class="konsole"] $ws1
-#assign [class="firefox"] $ws6
 assign [class="qutebrowser"] $ws4
 assign [class="steam"] $ws2
 
@@ -215,9 +222,7 @@ bindsym $mod+r mode "resize"
 
 #:Startup Programs----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-exec firefox
-exec qutebrowser
-exec konsole
-exec steam
-exec numlockx on
-exec kdeconnectd
+#exec --no-startup-id firefox
+exec --no-startup-id qutebrowser
+#exec --no-startup-id steam
+exec --no-startup-id numlockx on
