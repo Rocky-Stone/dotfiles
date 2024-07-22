@@ -4,20 +4,22 @@
 # i3 config file (v4)
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-#:Global Variables----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#:Global Variables---------------------------------------------------------------------------------------------------------------------------
 
 set $mod Mod1
 set $win Mod4
-set $MainDisplay "DisplayPort-2"
-set $SideDisplay "DisplayPort-0"
+set $MainDisplay "DP-3"
+set $SideDisplay "DP-1"
 
-#:Initial Startup Commands--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#:Initial Startup Commands-------------------------------------------------------------------------------------------------------------------
 
 exec --no-startup-id picom
 exec_always --no-startup-id ~/.screenlayout/xrandrInit.sh; ~/scripts/set_random_wallpaper.sh
 exec_always --no-startup-id ~/.config/polybar/launchPolybar.sh
 exec_always --no-startup-id ~/scripts/launch_kdeconnect.sh
-exec --no-starup-id xinput --set-prop "pointer:Logitech G305" 'libinput Accel Profile Enabled' 0, 1
+exec_always --no-startup-id xinput --set-prop "pointer:Logitech G305" "libinput Accel Profile Enabled" 0, 1
+# change x/y mouse speed
+exec_always --no-startup-id xinput --set-prop "pointer:Logitech G305" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 1
 exec --no-startup-id ~/scripts/disable_power_saving.sh
 default_border none
 
@@ -30,7 +32,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lockmore --blur
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lockmore --blur
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -40,12 +42,12 @@ exec --no-startup-id nm-applet
 exec --no-startup-id clipcatd
 
 # Use pactl to adjust volume in PulseAudio.
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym $mod + plus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym $mod + minus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+#bindsym $mod + plus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+#bindsym $mod + minus exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+#bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 gaps inner 5
 smart_gaps on
@@ -56,12 +58,14 @@ bindsym $mod+Control+s exec systemctl suspend
 # restart computer
 bindsym $mod+Control+r exec reboot 
 # lock screen
-bindsym $mod+Control+l exec --no-startup-id i3lockmore --image-fill ~/scripts/set_random_wallpaper.sh
+bindsym $mod+Control+l exec --no-startup-id i3lock
 
 # start a terminal
 bindsym $mod+Return exec --no-startup-id alacritty
 # start file manager
 bindsym $mod+e exec --no-startup-id thunar
+# start firefox
+bindsym $mod+i exec --no-startup-id firefox
 
 # kill focused window
 bindsym $mod+q kill
@@ -87,8 +91,6 @@ bindsym Print exec --no-startup-id ~/scripts/screenshot.sh
 #open black screen firefox
 bindsym $mod+d exec --no-startup-id ~/scripts/blank
 
-#open nas folder in xfe
-bindsym $mod+n exec --no-startup-id xfe /mnt/nas
 #:i3 Keybinds--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # reload the configuration file
@@ -143,9 +145,9 @@ set $ws1 "1: "
 set $ws2 "2: "
 set $ws3 "3: "
 set $ws4 "4: "
-set $ws5 "5:"
+set $ws5 "5: "
 set $ws6 "6: "
-set $ws7 "7:"
+set $ws7 "7: "
 set $ws8 "8:"
 set $ws9 "9:"
 set $ws10 "10: 󰄱"
@@ -190,6 +192,7 @@ workspace $ws10 output $SideDisplay
 #assign programs to spedific workspaces:
 assign [class="qutebrowser"] $ws4
 assign [class="steam"] $ws2
+assign [class="parsecd"] $ws7
 
 #:Resize Mode---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

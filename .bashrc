@@ -22,8 +22,8 @@ alias svi='sudo nvim'
 
 alias pac='sudo pacman'
 alias upgrade='sudo pacman -Syyu'
-alias search='pacman -Ss | grep'
-alias searchlocal='pacman -Qs | grep'
+alias search='pacman -Ss'
+alias searchlocal='pacman -Qs'
 alias install='sudo pacman -S'
 alias remove='sudo pacman -Rns'
 alias clean='~/scripts/package-cleanup.sh'
@@ -52,6 +52,10 @@ alias dactyl='cd /home/rocky/Software/qmk_firmware/keyboards/handwired/dactyl_ma
 #custom functions
 function nas () {
 	smbclient -N \\\\192.168.1.72\\"$1" -A ~/.smbcredentials
+}
+
+function edconf () {
+	vi ~/.config/"$1"
 }
 function gitall () {
 	git add .
